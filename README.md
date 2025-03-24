@@ -4,6 +4,9 @@ This library is intended to simplify and make more robust software interfacing t
 
 ## Example: Cortex-M System Design Kit APB UART
 
+From page 4-9 of revision r1p0 of the *Cortex™-M System Design Kit Technical Reference Manual*:
+![CMSDK APB UART Registers](cmsdk_apb_uart_example.png "CMSDK APB UART Registers")
+
 ### Registers and Fields Declared in cmsdk_apb_uart.hpp
 
 ``` cpp
