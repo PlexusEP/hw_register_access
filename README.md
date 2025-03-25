@@ -12,7 +12,7 @@ The following applications within this repository provide usage examples for the
 
 ## Incorporating Into Your Project
 
-CMake Package Manager (CPM) is recommended to incorporate this Hardware Register Access Library:
+CMake Package Manager (CPM) is recommended to incorporate this Hardware Register Access Library.  Use whatever `GIT_TAG` option is appropriate for your project.
 
 ```
 include(CPM)
