@@ -6,6 +6,6 @@ This library is intended to simplify and error-proof software interfacing to mem
 
 ## Example Application(s)
 
-The following applications within this repository provide usage examples for the Hardware Register Access Library.  The `PLXS_HW_REG_BUILD_EXAMPLE_APPLICATIONS` CMake option must be turned `ON` in order to build these applications.
+The following applications within this repository provide usage examples for the Hardware Register Access Library.
 
 * [Cortex-M System Design Kit APB UART](./apps/hw_register_access_cmsdk_apb_uart_example/readme.md)

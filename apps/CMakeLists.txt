@@ -1,4 +1,4 @@
-if(PACKAGE_TESTS OR NOT PLXS_HW_REG_BUILD_EXAMPLE_APPLICATIONS)
+if(PACKAGE_TESTS)
     #don't bother building applications if unit testing or not configured to build example apps
     return()
 endif()
