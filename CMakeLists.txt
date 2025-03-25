@@ -1,26 +1,25 @@
-add_library(hw_register_access INTERFACE)
+cmake_minimum_required(VERSION 3.28)
 
-include(CPM)
+project(hw_register_access)
 
-CPMAddPackage(
-    NAME PortableBitfields
-    GIT_REPOSITORY https://github.com/PlexusEP/PortableBitfields.git
-    GIT_TAG v1.0.1
-)
+option(PLXS_HW_REG_BUILD_EXAMPLE_APPLICATIONS "Build the example application(s) for the PLXS Hardware Register Access library." OFF)
 
-CPMAddPackage(
-    NAME ETL
-    GIT_REPOSITORY https://github.com/ETLCPP/etl.git
-    GIT_TAG 20.40.0
-)
+# ---- Include guards ----
+if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
+  message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.")
+endif()
 
-target_include_directories(hw_register_access
-    INTERFACE
-        ${CMAKE_CURRENT_SOURCE_DIR}/public
-)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tools/cmake)
 
-target_link_libraries(hw_register_access
-    INTERFACE
-        jungles::bitfield
-        etl::etl
-)
+include(policy)
+include(cpp)
+include(preprocessor-defines)
+include(gitversion)
+include(graphviz)
+include(pclp)
+include(test)
+
+add_subdirectory(apps)
+add_subdirectory(libs)
+
+pclp_complete_configuration_after_targets_defined()

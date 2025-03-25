@@ -1,0 +1,10 @@
+#ifndef LIB_NAME_PUBLIC_HPP
+#define LIB_NAME_PUBLIC_HPP
+
+namespace LIB_NAME {
+
+//TODO
+
+}  // namespace LIB_NAME
+
+#endif  // LIB_NAME_PUBLIC_HPP

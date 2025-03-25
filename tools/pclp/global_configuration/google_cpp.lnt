@@ -1,0 +1,91 @@
+// Global PC-lint Plus analysis options for Google C++ Style Guide
+
+// Type (class, struct, union, enum, type alias, type template parameter) names should be PascalCase.
+-astquery(TypeDecl() : {
+  hasName() && !(getNameAsString() ~~ "^[A-Z][A-Za-z0-9]*$")
+  message(8001 "type '" currentnode "' name should be PascalCase")
+})
+
+// Concept names should be PascalCase.
+// NOTE: Potentially could use ConceptDecl() in the future, but not currently supported by PCLP.
+-astquery(TemplateDecl() : {
+  getDeclKindName() == "Concept"
+  hasName() && !(getNameAsString() ~~ "^[A-Z][A-Za-z0-9]*$")
+  message(8002 "concept '" currentnode "' name should be PascalCase")
+})
+
+// Variable names should be snake_case.
+-astquery(VarDecl() : {
+  !getType().isConstQualified()
+  hasName() && !(getNameAsString() ~~ "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+  message(8003 "variable '" currentnode "' name should be snake_case")
+})
+
+// Class data member names should be snake_case with a trailing underscore.
+-astquery(FieldDecl() : {
+  !getType().isConstQualified()
+  getParent().isClass()
+  hasName() && !(getNameAsString() ~~ "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*_$")
+  message(8004 "class data member '" currentnode "' name should be snake_case with a trailing underscore (snake_case_)")
+})
+
+// Struct data member names should be snake_case.
+-astquery(FieldDecl() : {
+  !getType().isConstQualified()
+  getParent().isStruct()
+  hasName() && !(getNameAsString() ~~ "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+  message(8005 "struct data member '" currentnode "' name should be snake_case")
+})
+
+// Union data member names should be snake_case.
+-astquery(FieldDecl() : {
+  !getType().isConstQualified()
+  getParent().isUnion()
+  hasName() && !(getNameAsString() ~~ "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+  message(8006 "union data member '" currentnode "' name should be snake_case")
+})
+
+// Non-type template parameter names should be snake_case.
+// NOTE: Potentially could use NonTypeTemplateParmDecl() in the future, but not currently supported by PCLP.
+-astquery(DeclaratorDecl() : {
+  getDeclKindName() == "NonTypeTemplateParm"
+  hasName() && !(getNameAsString() ~~ "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+  message(8007 "non-type template parameter '" currentnode "' name should be snake_case")
+})
+
+// Constant names should be mixed case with a leading 'k'.
+-astquery(VarDecl() : {
+  getType().isConstQualified()
+  isConstexpr() || (hasGlobalStorage() && !isLocalVarDecl())
+  hasName() && !(getNameAsString() ~~ "^k[A-Z][A-Za-z0-9]*$")
+  message(8008 "constant '" currentnode "' name should be mixed case with a leading 'k' (kMixedCase)")
+})
+
+// Function names should be PascalCase.
+-astquery(FunctionDecl() : {
+  hasName() && !(getNameAsString() ~~ "^[A-Z][A-Za-z0-9]*$")
+  getNameAsString() != "main"
+  message(8010 "function '" currentnode "' name should be PascalCase")
+})
+
+// Namespace names should be snake_case.
+-astquery(NamespaceDecl() : {
+  hasName() && !(getNameAsString() ~~ "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+  message(8011 "namespace '" currentnode "' name should be snake_case")
+})
+
+// Enumerator names should be mixed case with a leading 'k'.
+-astquery(EnumConstantDecl() : {
+  hasName() && !(getNameAsString() ~~ "^k[A-Z][A-Za-z0-9]*$")
+  message(8012 "enumerator '" currentnode "' name should be mixed case with a leading 'k' (kMixedCase)")
+})
+
+// Constructors that are callable with a single argument should be made explicit except for
+// copy/move constructors and constructors taking only a std::initializer_list argument.
+-astquery(CXXConstructorDecl() : {
+  getMinRequiredArguments() <= 1 && getNumParams() >= 1
+  !isExplicit()
+  !isCopyOrMoveConstructor()
+  !getParamDecl(1).getType().getNonReferenceType().isStdInitList()
+  message(8013 "constructors which can be called with 1 argument should be marked explicit " getParamDecl(1).getType().getNonReferenceType())
+})

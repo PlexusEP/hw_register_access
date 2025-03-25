@@ -1,0 +1,1 @@
+add_subdirectory(hw_register_access)

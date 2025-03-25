@@ -1,0 +1,35 @@
+{
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": true,
+    "lizard.reportDir": "${config:cmake.buildDirectory}/lizard_report",
+    "triggerTaskOnSave.tasks": {
+        "Lint: Single File On Save": [
+            "*.cpp",
+            "*.c",
+            "*.cxx",
+            "*.cc"
+        ],
+        //uncomment this line to automatically run Lizard upon file save
+        // "Lizard: Single File": [
+        //     "*.cpp",
+        //     "*.c",
+        //     "*.cxx",
+        //     "*.cc",
+        //     "*.h",
+        //     "*.hpp",
+        //     "*.hh"
+        // ],
+        "Format: Add newline to EOF": [
+            "CMakeLists.txt", // Necessary so that tasks that modify CMakeLists.txt can append lines more easily after manual edits
+        ]
+    },
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json", //move out of build directory for clangd's benefit (assuming multiple build directories)
+    "C_Cpp.intelliSenseEngine": "disabled", // Microsoft intellisense conflicts with clangd
+
+    //see https://manpages.debian.org/experimental/clangd-14/clangd-14.1.en.html
+    "clangd.arguments": [
+        "--query-driver=/usr/bin/gcc,/usr/bin/g++",
+        "--header-insertion=never"
+    ],
+    "clangd.onConfigChanged": "restart"
+}
