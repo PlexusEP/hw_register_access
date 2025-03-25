@@ -9,3 +9,28 @@ This library is intended to simplify and error-proof software interfacing to mem
 The following applications within this repository provide usage examples for the Hardware Register Access Library.
 
 * [Cortex-M System Design Kit APB UART](./apps/hw_register_access_cmsdk_apb_uart_example/readme.md)
+
+## Incorporating Into Your Project
+
+CMake Package Manager (CPM) is recommended to incorporate this Hardware Register Access Library:
+
+```
+include(CPM)
+
+CPMAddPackage(
+    NAME HwRegAccess
+    GIT_REPOSITORY https://github.com/PlexusEP/hw_register_access.git
+    GIT_TAG v1.0.0
+)
+
+target_link_libraries(your_target
+    PRIVATE
+        hw_register_access
+)
+```
+
+And since this library is header-only, simply include the one-and-only header and start using it!
+
+```
+#include "hw_register_access/hw_register_access.hpp"
+```
