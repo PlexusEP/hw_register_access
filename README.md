@@ -34,3 +34,9 @@ And since this library is header-only, simply include the one-and-only header an
 ```
 #include "hw_register_access/hw_register_access.hpp"
 ```
+
+## Updating This Library
+
+When updating this library, make sure it remains lint-free, conforms to style guidelines, etc.  To facilitate such updates, the development environment containing all the necessary tools has been containerized.  See the [C++ Project Template documentation](https://eng.plexus.com/git/pages/EP/cpp-project-template/site/browse/) for more information about containerization and the workflows available for performing various tasks using this environment.
+
+Set the `STANDALONE_LIB_DEV` CMake option to `ON` when making updates to unlock these workflows.  This option is off by default in order to make sure the CMake for this library doesn't conflict or contradict higher-level CMake when pulled into a project as a dependency.
