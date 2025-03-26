@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(my_project)
+project(hw_register_access)
+
+option(STANDALONE_LIB_DEV "Set to 'ON' when updating this library and need to use this repository stand-alone." OFF)
 
 # ---- Include guards ----
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
@@ -9,15 +11,19 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/tools/cmake)
 
-include(policy)
-include(cpp)
-include(preprocessor-defines)
-include(gitversion)
-include(graphviz)
-include(pclp)
-include(test)
+if (STANDALONE_LIB_DEV)
+  include(policy)
+  include(cpp)
+  include(preprocessor-defines)
+  include(gitversion)
+  include(graphviz)
+  include(pclp)
+  include(test)
+  add_subdirectory(apps)
+endif()
 
-add_subdirectory(apps)
 add_subdirectory(libs)
 
-pclp_complete_configuration_after_targets_defined()
+if (STANDALONE_LIB_DEV)
+  pclp_complete_configuration_after_targets_defined()
+endif()
