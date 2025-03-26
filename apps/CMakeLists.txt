@@ -1,5 +1,5 @@
 if(PACKAGE_TESTS)
-    #don't bother building applications if unit testing or not configured to build example apps
+    #don't bother building applications if unit testing
     return()
 endif()
 

@@ -17,30 +17,6 @@
             "problemMatcher": []
         },
         {
-            "label": "MkDocs: Build",
-            "type": "shell",
-            "command": "./docs/buildDocumentation.sh",
-            "args": [
-                "${command:cmake.buildDirectory}"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "MkDocs: Serve with live updates on localhost:8000",
-            "type": "shell",
-            "command": "mkdocs serve --dev-addr 0.0.0.0:8000",
-            "problemMatcher": []
-        },
-        {
-            "label": "MkDocs: Render with previous versions on localhost:8000",
-            "type": "shell",
-            "command": "./docs/renderDocumentation.sh",
-            "args": [
-                "${command:cmake.buildDirectory}"
-            ],
-            "problemMatcher": []
-        },
-        {
             "label": "Lint: Open PCLP Manual",
             "type": "shell",
             "command": "code",
