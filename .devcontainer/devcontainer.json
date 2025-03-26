@@ -1,0 +1,64 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/cpp
+{
+	"name": "C++",
+	"image": "plexusna.jfrog.io/ep-docker-dev-local/plxs/cpp:1.5.2",
+	"runArgs": [
+		 "--cap-add=SYS_PTRACE",
+		 "--security-opt",
+		 "seccomp=unconfined"
+	],
+
+	// Comment out this line to run as root instead.
+	"remoteUser": "vscode",
+	"containerUser": "vscode",
+	"privileged": true,
+
+	// rather than having VS Code "probe", be explicit about setting PATH within container (to ensure that we use the same PATH even when not running in VS Code)
+	"userEnvProbe": "none",
+
+	"mounts": [
+		//TODO - dependent on remoteUser
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind",
+
+		//for launching peer containers from this one
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+
+		//to view containerized GUIs via X, necessary only for VMWare, see PLXSEP-1254
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"
+	],
+	
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+
+			// Set *default* container specific settings.json values on container create.
+			"settings": {},
+
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				// ALMSCAD-2287 - in order to support "offline" workflows, all extensions (along with code-server) are installed into the Docker image
+			]
+		}
+	},
+
+	// Use custom entrypoint, not VS code entrypoint
+	"overrideCommand": false,
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [8000],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "gcc -v",
+
+    // Use 'remoteEnv' to set environment variables within the container
+	"remoteEnv": {
+        // Forward the local workspace path on to the container in the form of this environment variable, for potential use when invoking
+        // `Docker run` there to instantiate stand-alone containers that may need to access the workspace. In those cases, a bind mount
+        // can leverage this variable.
+        "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+
+		//to view containerized GUIs via X, necessary only for VMWare, see PLXSEP-1254
+		"DISPLAY": "${localEnv:DISPLAY}"
+	}
+}

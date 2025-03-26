@@ -1,0 +1,35 @@
+{
+    "StartDelimiter": "File:",
+    "File": {
+        "line": 1,
+        "item": 2
+    }, 
+    "LineInCode": {
+        "line": 1,
+        "item": 4
+    },
+    "Column": {
+        "line": 1,
+        "item": 6
+    },
+    "Type": {
+        "line": 2,
+        "item": 2
+    },
+    "ID": {
+        "line": 2,
+        "item": 4
+    },
+    "Message":{
+        "line": 2,
+        "item": 3
+    },
+    "Code":{
+        "line": 3,
+        "until":"\n"
+    },
+    "Carrot":{
+        "line": 4,
+        "until":"\n"
+    }
+}

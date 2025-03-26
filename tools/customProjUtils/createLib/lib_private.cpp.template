@@ -1,0 +1,8 @@
+#include "LIB_NAME_private.hpp"
+#include "LIB_NAME_public.hpp"
+
+namespace LIB_NAME {
+
+//TODO
+
+}  // namespace LIB_NAME

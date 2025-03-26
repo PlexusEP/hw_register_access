@@ -1,0 +1,4 @@
+//define any global library modules or library header directories here
+
++libm(*.cpm_cache/*)
++libdir(*.cpm_cache/*)

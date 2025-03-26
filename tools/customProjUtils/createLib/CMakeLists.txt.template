@@ -1,0 +1,17 @@
+add_library(LIB_NAME)
+
+target_sources(LIB_NAME
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/private/LIB_NAME.cpp
+)
+
+target_include_directories(LIB_NAME
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/public
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/public/LIB_NAME
+)
+
+if(PACKAGE_TESTS)
+    add_subdirectory(test)
+endif()

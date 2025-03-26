@@ -1,0 +1,290 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Doxygen: Serve",
+            "type": "shell",
+            "command": "doxygen tools/doxygen/doxygen.cfg && python -m http.server --directory build/html 8001",
+            "problemMatcher": []
+        },
+        {
+            "label": "Doxygen: Build",
+            "type": "shell",
+            "command": "doxygen",
+            "args": [
+                "tools/doxygen/doxygen.cfg"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "MkDocs: Build",
+            "type": "shell",
+            "command": "./docs/buildDocumentation.sh",
+            "args": [
+                "${command:cmake.buildDirectory}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "MkDocs: Serve with live updates on localhost:8000",
+            "type": "shell",
+            "command": "mkdocs serve --dev-addr 0.0.0.0:8000",
+            "problemMatcher": []
+        },
+        {
+            "label": "MkDocs: Render with previous versions on localhost:8000",
+            "type": "shell",
+            "command": "./docs/renderDocumentation.sh",
+            "args": [
+                "${command:cmake.buildDirectory}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Lint: Open PCLP Manual",
+            "type": "shell",
+            "command": "code",
+            "args": [
+                "-r",
+                "/tools/pclp/linux/doc/manual.pdf"
+            ],
+            "presentation": {
+                "reveal": "never",
+                "close": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Lint: Build Target",
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/pclp/scripts/analyze.sh",
+            "args": [
+                "project",
+                "${command:cmake.buildDirectory}/pclp",
+                "${workspaceFolder}",
+                "${command:cmake.activeConfigurePresetName}",
+                "${command:cmake.buildTargetName}"
+            ],
+            "options": {
+                "statusbar": {
+                    "label": "Analyze",
+                    "hide": false
+                }
+            },
+            "presentation": {
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": 
+            {
+                "owner": "lint",
+                "fileLocation": "absolute",
+                // File, line, and message are mandatory for all problem matchers.
+                // See https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher.
+                // Therefore, since some lint is not file-specific it cannot be displayed on the problems pane.
+                // See PLXSEP-1331.
+                "pattern": [
+                    {
+                        "regexp": "File: (.*), Line: (.*), Column: (.*)",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3
+                    },
+                    {
+                        "regexp": "Type: (.*), ID: (.*), Message: (.*)",
+                        "severity": 1,
+                        "code": 2,
+                        "message": 3
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Lint: Single File",
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/pclp/scripts/analyze.sh",
+            "args": [
+                "${file}",
+                "${command:cmake.buildDirectory}/pclp",
+                "${workspaceFolder}",
+                "${command:cmake.activeConfigurePresetName}",
+                "${command:cmake.buildTargetName}"
+            ],
+            "presentation": {
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": 
+            {
+                "owner": "lint",
+                "fileLocation": "absolute",
+                // File, line, and message are mandatory for all problem matchers.
+                // See https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher.
+                // Therefore, since some lint is not file-specific it cannot be displayed on the problems pane.
+                // See PLXSEP-1331.
+                "pattern": [
+                    {
+                        "regexp": "File: (.*), Line: (.*), Column: (.*)",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3
+                    },
+                    {
+                        "regexp": "Type: (.*), ID: (.*), Message: (.*)",
+                        "severity": 1,
+                        "code": 2,
+                        "message": 3
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Lint: Single File On Save",
+            "hide": true,
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/pclp/scripts/analyze.sh",
+            "args": [
+                "${file}",
+                "${command:cmake.buildDirectory}/pclp",
+                "${workspaceFolder}",
+                "${command:cmake.activeConfigurePresetName}",
+                "${command:cmake.buildTargetName}"
+            ],
+            "presentation": {
+                "reveal": "never",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": 
+            {
+                "owner": "lint",
+                "fileLocation": "absolute",
+                // File, line, and message are mandatory for all problem matchers.
+                // See https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher.
+                // Therefore, since some lint is not file-specific it cannot be displayed on the problems pane.
+                // See PLXSEP-1331.
+                "pattern": [
+                    {
+                        "regexp": "File: (.*), Line: (.*), Column: (.*)",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3
+                    },
+                    {
+                        "regexp": "Type: (.*), ID: (.*), Message: (.*)",
+                        "severity": 1,
+                        "code": 2,
+                        "message": 3
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Lizard: Single File",
+            "type": "shell",
+            "command": "lizard",
+            "args": [
+                "${file}"
+            ],
+            "presentation": {
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Lizard: Generate Report",
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/lizard/lizard_report.sh",
+            "args": [
+                "${config:lizard.reportDir}",
+                "./tools/'*'",
+                "./.cpm_cache/'*'",
+                "./build/'*'",
+                "'*'test'*'",
+            ],
+            "presentation": {
+                "reveal": "never",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Lizard: Serve Report on localhost:8002", // Using 8002 to avoid conflict with mkdocs and Doxygen
+            "dependsOn": "Lizard: Generate Report",
+            "type": "shell",
+            "command": "python -m http.server --directory ${config:cmake.buildDirectory}/lizard_report 8002",
+            "presentation": {
+                "reveal": "never",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Format: Add newline to EOF",
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/customProjUtils/newLineAtEOF/newLineAtEOF.sh",
+            "args": [
+                "${file}",
+            ],
+            "presentation": {
+                "reveal": "never",
+                "close": true
+            },
+        },
+        {
+            "label": "Library: Add",
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/customProjUtils/createLib/createLib.sh ${input:libName} ${workspaceFolder}/libs/",
+            "presentation": {
+                "reveal": "never",
+                "close": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Application: Add",
+            "type": "shell",
+            "command": "${workspaceFolder}/tools/customProjUtils/createApp/createApp.sh ${input:appName} ${workspaceFolder}/apps/",
+            "presentation": {
+                "reveal": "never",
+                "close": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "ClangD: Delete Cache",
+            "type": "shell",
+            "command": "rm -rf ${workspaceFolder}/.cache",
+            "presentation": {
+                "reveal": "never",
+                "close": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Containerized GUI Example: Launch",
+            "command": "echo \"Displaying GUI...\" && docker run --name helloworldgui --rm -ti -e DISPLAY=${DISPLAY} -v/tmp/.X11-unix:/tmp/.X11-unix -v ${workspaceFolder}:${workspaceFolder} plexusna.jfrog.io/ep-docker-dev-local/plxs/hello-world-gui:1.0.0",
+            "hide": false,
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "libName",
+            "description": "Library name:",
+            "default": "foo",
+            "type": "promptString"
+        },
+        {
+            "id": "appName",
+            "description": "Application name:",
+            "default": "my_app",
+            "type": "promptString"
+        }
+    ],
+    "statusbar.default.hide": true
+}

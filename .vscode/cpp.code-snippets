@@ -1,0 +1,57 @@
+{
+	// see https://code.visualstudio.com/docs/editor/userdefinedsnippets
+
+	"C++ Header Guard Snippet": {
+		"prefix": "headerGuard",
+		"scope": "cpp",
+		"body": [
+			"#ifndef ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_HPP",
+			"#define ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_HPP",
+			"",
+			"$0",
+			"",
+			"#endif  // ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_HPP",
+			""
+		], 
+		"description": "Generates header guards based on file name. "
+	},
+	"C++ Class Snippet": {
+		"prefix": "class", 
+		"scope": "cpp", 
+		"body": [
+			"class ${1:${TM_FILENAME_BASE}} {",
+			" public:",
+			"  $2",
+			" private:",
+			"  $3",
+			"};"
+		],
+		"description": "Creates a class defintion. "
+	},
+	"C++ Interface Snippet": {
+		"prefix": "interface", 
+		"scope": "cpp", 
+		"body": [
+			"class ${1:${TM_FILENAME_BASE}} {",
+			" public:",
+			"  ${1:${TM_FILENAME_BASE}}(${1:${TM_FILENAME_BASE}} const&) = delete;",
+  			"  ${1:${TM_FILENAME_BASE}}& operator=(${1:${TM_FILENAME_BASE}} const&) = delete;",
+			"  virtual ~${1:${TM_FILENAME_BASE}}() = default;", 
+			"",
+			"  virtual $2 = 0;",
+			" protected:",
+			"  ${1:${TM_FILENAME_BASE}}() = default;",
+			"};"
+		],
+		"description": "Creates an interface defintion. "
+	},
+
+	"std::cout": {
+		"prefix": "cout",
+		"scope": "cpp",
+		"body": [
+			"std::cout << \"${1:/* message */}\" << std::endl;"
+		],
+		"description": "Code snippet for printing to std::cout. "
+	},
+}

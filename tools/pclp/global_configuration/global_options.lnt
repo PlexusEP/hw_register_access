@@ -1,0 +1,51 @@
+//define any global PC-lint Plus analysis options here
+
+-max_threads=0
+-w3 //display errors, warnings, and informational messages
+-frz //use ERRORLEVEL to return how many errors were found
++libclass(angle) //consider all includes that are included using <> brackets to be library headers
+-wlib(4) -wlib(1) //only look for configuration errors within library headers, leveraging the appropriate "zone of transition" per -w documentation within the manual
+
+//format output for ease of reading, and for easier vs code problem matching
+-h4
+-t4
+-width(0,4)
+-"format4a=+++++\n\t%(File: %f, Line: %l, Column: %c\n %)\tType: %t, ID: %n, Message: (lint) %m\n"
+-"format4b=-----"
+
+//repeated includes are okay
+-e537
+
+//some types are expected to not be referenced after construction
+-etype(529 1788, std::lock_guard*, std::scoped_lock*, std::unique_lock*, std::shared_lock*)
+
+//See documented defect PCLP-4057 (Gimpel system ID) / ALMSCAD-1613 (Plexus Jira ID).
+//Remove this configuration snippet when an updated version of the tool fixes this issue.
+++d__attr_dealloc(dealloc,argno)=
+++d__attr_dealloc_free=
+
+// Experimental hook from Gimpel support email. Suppress "public virtual function" for overriding/final functions, and for interfaces
+-hook(message,
+    -cond(
+        %[msg_num] == 1731 &&
+            '%[walk_symbol_param(1).is_virtual]' == 'true' &&
+            '%[walk_symbol_param(1).is_marked_virtual]' == 'false',
+        -reject
+    )
+)
+-hook(message,
+    -cond(
+        %[msg_num] == 1731 &&
+            '%[walk_symbol_param(1).is_pure]' == 'true' &&
+            '%[walk_symbol_param(1).walk_parent_class.has_in_class_init]' == 'false',
+        -reject
+    )
+)
+
+//external symbol defined but not referenced
+//occurs often when analyzing C++ lib that isn't configured to be PCLP lib, which isn't uncommon if value tracking is desired
+//but don't want different settings for each type of PCLP lib (one type being PLXS-authored C++ lib, and the other being OTS lib)
+-e714
+
+//Google C++ Style Guide
+google_cpp.lnt

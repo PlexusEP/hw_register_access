@@ -1,0 +1,8 @@
+//do not modify this file; it represents each of the different parts comprising PC-lint Plus configuration
+
+compiler.lnt            //automatically-generated compiler configuration, with inputs specified within CMake
+global_options.lnt      //global options, applicable to all targets
+target_options.lnt      //automatically-generated target-specific options, with inputs specified within CMake
+global_libraries.lnt    //global specification of library modules and headers, applicable to all targets
+target_libraries.lnt    //automatically-generated target-specific specification of library modules and headers, with inputs specified within CMake
+project.lnt             //automatically-generated target-specific project configuration, with inputs specified within CMake
