@@ -80,7 +80,7 @@ using BaudDivRegValue = plxs::HwRegValue<uint32_t,
   plxs::HwRegField<BaudDivRegField::kUnused, 12>,
   plxs::HwRegField<BaudDivRegField::kBaudRateDiv, 20>>;
 
-// see Cortex-M System Design Kit Technical Reference Manual, APB UART,
+// see "Cortex-M System Design Kit Technical Reference Manual", APB UART,
 // Programmers model
 template <uintptr_t address>
 struct UartRegSet {
@@ -92,6 +92,7 @@ struct UartRegSet {
   plxs::HwRegRW<BaudDivRegValue::Type, address + 16> bauddiv;
 };
 
+// see section 3.6 CMSDK APB subsystem of "Application Note AN386, ARM Cortex-M4 SMM on V2M-MPS2"
 using Uart0RegSet = UartRegSet<0x40004000>;
 using Uart1RegSet = UartRegSet<0x40005000>;
 using Uart2RegSet = UartRegSet<0x40006000>;
