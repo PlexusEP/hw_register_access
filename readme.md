@@ -7,6 +7,8 @@ This library is intended to simplify and error-proof software interfacing to mem
 ## Typical Usage
 
 ``` cpp
+#include "hw_register_access/hw_register_access.hpp"
+
 // MyReg field IDs
 enum class MyRegField {
   ... IDs of other fields in the State register ...
