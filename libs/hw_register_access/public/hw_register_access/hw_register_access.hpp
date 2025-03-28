@@ -7,15 +7,17 @@
 
 namespace plxs {
 
-// aliases for jungles/bitfields types
-
-template <typename UnderlyingType, typename... Fields>
-using HwRegData = jungles::Bitfields<UnderlyingType, Fields...>;
+//lint -e{1790} inherit to add nested alias for T
+template <typename T, typename... Fields>
+class HwRegValue : public jungles::Bitfields<T, Fields...> {
+ public:
+  using Type = T;  // this type alias is the reason for this subclass
+  using jungles::Bitfields<T, Fields...>::
+      Bitfields;  // bring along the constructors from the base class
+};
 
 template <auto id, unsigned size>
 using HwRegField = jungles::Field<id, size>;
-
-// wrappers for etl/io_port behavior
 
 template <typename T, uintptr_t address>
 using HwRegRO = etl::io_port_ro<T, address>;

@@ -4,25 +4,25 @@
 
 using namespace cmsdk_apb_uart;
 
-namespace {                                  // anonymous
-RegisterSet<kUart0Base> uart0_register_set;  //lint !e1756
+namespace {                 // anonymous
+Uart0RegSet uart0_reg_set;  //lint !e1756
 }  // anonymous namespace
 
 namespace qemu_debug_uart {
 
 void Init() {
   // disable UART when changing configuration
-  CtrlRegister ctrl{0};
-  uart0_register_set.ctrl.write(ctrl.serialize());
+  CtrlRegValue ctrl_value{0};
+  uart0_reg_set.ctrl.write(ctrl_value.serialize());
 
   // 25MHz / 115200 = 217
-  BaudDivRegister bauddiv;
-  bauddiv.at<BaudDivFields::kBaudRateDiv>() = 217;
-  uart0_register_set.bauddiv.write(bauddiv.serialize());
+  BaudDivRegValue bauddiv_value;
+  bauddiv_value.at<BaudDivRegField::kBaudRateDiv>() = 217;
+  uart0_reg_set.bauddiv.write(bauddiv_value.serialize());
 
   // Enable Tx
-  ctrl.at<CtrlFields::kTxEn>() = 1;
-  uart0_register_set.ctrl.write(ctrl.serialize());
+  ctrl_value.at<CtrlRegField::kTxEn>() = 1;
+  uart0_reg_set.ctrl.write(ctrl_value.serialize());
 }
 
 }  // namespace qemu_debug_uart
@@ -32,12 +32,12 @@ extern "C" uint8_t UART_SendChar(uint8_t txchar) {  //lint !e8010 !e765
 
   // wait for TX buffer availability
   while (1) {  //lint !e716
-    StateRegister state{uart0_register_set.state.read()};
-    if (state.at<StateFields::kTxBufferFull>() == 0) break;
+    StateRegValue state_value{uart0_reg_set.state.read()};
+    if (state_value.at<StateRegField::kTxBufferFull>() == 0) break;
   }
 
-  XDataRegister txdata{txchar};
-  uart0_register_set.txdata.write(txdata.serialize());
+  XDataRegValue txdata_value{txchar};
+  uart0_reg_set.txdata.write(txdata_value.serialize());
 
   return txchar;
 }
