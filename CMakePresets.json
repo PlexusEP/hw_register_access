@@ -7,38 +7,19 @@
     },
     "configurePresets": [
         {
-            "name": "default",
+            "name": "gcc",
             "description": "Default configuration",
-            "hidden": true,
+            "hidden": false,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "toolchainFile": "${sourceDir}/tools/cmake/toolchains/gcc.cmake",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "PACKAGE_TESTS": "OFF",
+                "PACKAGE_TESTS": "ON",
                 "CPM_SOURCE_CACHE": "${sourceDir}/.cpm_cache",
-                "CMAKE_VERBOSE_MAKEFILE": "OFF"
-            }
-        },
-        {
-            "name": "gcc_debug",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "gcc_release",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "gcc_debug_unit_tests",
-            "inherits": "gcc_debug",
-            "cacheVariables": {
-                "PACKAGE_TESTS": "ON"
+                "CMAKE_VERBOSE_MAKEFILE": "OFF",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "STANDALONE_LIB_DEV": "ON"
             }
         }
     ]
